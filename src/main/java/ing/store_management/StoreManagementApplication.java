@@ -1,4 +1,4 @@
-package ing.store_management.store_management;
+package ing.store_management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
