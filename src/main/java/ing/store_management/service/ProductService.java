@@ -66,8 +66,22 @@ public class ProductService {
     }
 
     public void removeProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductException("Product does not exist"));
+        productRepository.findById(id).orElseThrow(() -> new ProductException("Product does not exist"));
 
         productRepository.deleteById(id);
+    }
+
+    public List<ProductDto> getProductsByNameStartingWith(String namePrefix) {
+        Iterable<Product> productsList = productRepository.findProductsByNameStartingWith(namePrefix);
+        List<ProductDto> productDtos = new ArrayList<>();
+
+        productsList.forEach(product ->
+                productDtos.add(ProductDto.builder()
+                        .id(product.getId())
+                        .price(product.getPrice())
+                        .name(product.getName())
+                        .stock(product.getStock())
+                        .build()));
+        return productDtos;
     }
 }
