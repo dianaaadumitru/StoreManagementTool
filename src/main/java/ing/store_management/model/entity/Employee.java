@@ -1,6 +1,6 @@
 package ing.store_management.model.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -9,7 +9,16 @@ import lombok.*;
 @Setter
 @Entity(name = "employees")
 @ToString
-public class Employee extends User {
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String employeeNumber;
+
     private String department;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

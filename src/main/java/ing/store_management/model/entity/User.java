@@ -1,6 +1,6 @@
 package ing.store_management.model.entity;
 
-import ing.store_management.model.enums.CustomerRole;
+import ing.store_management.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +11,6 @@ import lombok.*;
 @Entity(name = "users")
 @Builder
 @ToString
-@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,5 +18,5 @@ public class User {
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
-    private CustomerRole role;
+    private UserRole role;
 }

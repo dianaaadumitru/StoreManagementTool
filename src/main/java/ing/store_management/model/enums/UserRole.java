@@ -1,6 +1,6 @@
 package ing.store_management.model.enums;
 
-public enum CustomerRole {
+public enum UserRole {
     CUSTOMER,
     EMPLOYEE
 }
