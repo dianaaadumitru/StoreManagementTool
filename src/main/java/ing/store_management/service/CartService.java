@@ -88,13 +88,18 @@ public class CartService {
             Product product = cartItem.getProduct();
             product.setStock(product.getStock() + cartItem.getQuantity());
             productRepository.save(product);
+            cart.getItems().remove(cartItem);
+            cartRepository.save(cart);
             cartItemRepository.delete(cartItem);
         }
     }
 
-    public List<CartItemDto> getAllCartItems(Long cartId) {
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartException("Cart does not exist"));
-        Set<CartItem> cartItems = cart.getItems();
+    public List<CartItemDto> getAllCartItems(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new UserException("User does not exist"));
+        Cart cart = cartRepository.findByCustomer(customer);
+        if (cart == null) {
+            throw new CartException("Cart not found");
+        }        Set<CartItem> cartItems = cart.getItems();
         List<CartItemDto> cartItemDtos = new ArrayList<>();
 
         cartItems.forEach(cartItem ->
