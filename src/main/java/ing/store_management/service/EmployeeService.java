@@ -21,7 +21,7 @@ public class EmployeeService {
     private final UserRepository userRepository;
 
     private final EmployeeRepository employeeRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {

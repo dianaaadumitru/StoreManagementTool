@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,5 +22,6 @@ public class Cart {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    private LocalDateTime creationTime;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<CartItem> items;
 }

@@ -21,7 +21,7 @@ public class CustomerService {
     private final UserRepository userRepository;
 
     private final CustomerRepository customerRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     public CustomerDto createCustomer(CustomerDto customerDto) {

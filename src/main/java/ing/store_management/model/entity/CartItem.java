@@ -3,6 +3,8 @@ package ing.store_management.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,4 +26,7 @@ public class CartItem {
     private Product product;
 
     private int quantity;
+
+    private LocalDateTime addedAt;
+
 }
