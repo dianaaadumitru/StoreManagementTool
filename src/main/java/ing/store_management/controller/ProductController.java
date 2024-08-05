@@ -40,4 +40,9 @@ public class ProductController {
         productService.removeProduct(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("findByName/{name}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByName(@PathVariable String name) {
+        return ResponseEntity.ok(productService.getProductsByNameStartingWith(name));
+    }
 }
