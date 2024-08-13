@@ -15,6 +15,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class ProductService {
+    public static final String PRODUCT_DOES_NOT_EXIST_CONSTANT = "Product does not exist";
     private final ProductRepository productRepository;
 
     public ProductDto addProduct(ProductDto newProduct) {
@@ -29,7 +30,7 @@ public class ProductService {
     }
 
     public ProductDto getProductById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductException("Product does not exist"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductException(PRODUCT_DOES_NOT_EXIST_CONSTANT));
 
         return ProductDto.builder()
                 .id(id)
@@ -54,7 +55,7 @@ public class ProductService {
     }
 
     public ProductDto updateProduct(Long id, ProductDto updatedProduct) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductException("Product does not exist"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductException(PRODUCT_DOES_NOT_EXIST_CONSTANT));
 
         product.setName(updatedProduct.getName());
         product.setPrice(updatedProduct.getPrice());
@@ -66,12 +67,15 @@ public class ProductService {
     }
 
     public void removeProduct(Long id) {
-        productRepository.findById(id).orElseThrow(() -> new ProductException("Product does not exist"));
+        productRepository.findById(id).orElseThrow(() -> new ProductException(PRODUCT_DOES_NOT_EXIST_CONSTANT));
 
         productRepository.deleteById(id);
     }
 
     public List<ProductDto> getProductsByNameStartingWith(String namePrefix) {
+        if (namePrefix != null && !namePrefix.isEmpty()) {
+            namePrefix = namePrefix.toLowerCase();
+        }
         Iterable<Product> productsList = productRepository.findProductsByNameStartingWith(namePrefix);
         List<ProductDto> productDtos = new ArrayList<>();
 
