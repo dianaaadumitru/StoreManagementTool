@@ -4,7 +4,6 @@ import ing.store_management.exception.CartException;
 import ing.store_management.exception.ProductException;
 import ing.store_management.exception.UserException;
 import ing.store_management.model.dto.CartItemDto;
-import ing.store_management.model.dto.ProductDto;
 import ing.store_management.model.entity.*;
 import ing.store_management.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -28,17 +27,17 @@ public class CartService {
 
     private final ProductRepository productRepository;
 
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void addProductToCart(Long customerId, Long productId, int quantity) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new ProductException("Product does not exist"));
 
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new UserException("User does not exist"));
-        Cart cart = cartRepository.findByCustomer(customer);
+        User user = userRepository.findById(customerId).orElseThrow(() -> new UserException("User does not exist"));
+        Cart cart = cartRepository.findByUser(user);
         if (cart == null) {
             cart = Cart.builder()
-                    .customer(customer)
+                    .user(user)
                     .build();
             cart = cartRepository.save(cart);
         }
@@ -73,8 +72,8 @@ public class CartService {
 
     @Transactional
     public void removeProductFromCart(Long customerId, Long productId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new UserException("User does not exist"));
-        Cart cart = cartRepository.findByCustomer(customer);
+        User user = userRepository.findById(customerId).orElseThrow(() -> new UserException("User does not exist"));
+        Cart cart = cartRepository.findByUser(user);
         if (cart == null) {
             throw new CartException("Cart not found");
         }
@@ -95,8 +94,8 @@ public class CartService {
     }
 
     public List<CartItemDto> getAllCartItems(Long customerId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new UserException("User does not exist"));
-        Cart cart = cartRepository.findByCustomer(customer);
+        User user = userRepository.findById(customerId).orElseThrow(() -> new UserException("User does not exist"));
+        Cart cart = cartRepository.findByUser(user);
         if (cart == null) {
             throw new CartException("Cart not found");
         }        Set<CartItem> cartItems = cart.getItems();
