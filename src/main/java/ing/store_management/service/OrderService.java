@@ -8,7 +8,6 @@ import ing.store_management.model.entity.Order;
 import ing.store_management.model.entity.OrderItem;
 import ing.store_management.repository.OrderItemRepository;
 import ing.store_management.repository.OrderRepository;
-
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,7 @@ public class OrderService {
 
         // Create a new order
         AtomicReference<Double> total = new AtomicReference<>((double) 0);
-        cart.getItems().forEach(cartItem -> total.updateAndGet(v ->  (v + cartItem.getQuantity() * cartItem.getProduct().getPrice())));
+        cart.getItems().forEach(cartItem -> total.updateAndGet(v -> (v + cartItem.getQuantity() * cartItem.getProduct().getPrice())));
         Order order = Order.builder()
                 .user(cart.getUser())
                 .total(total.get())

@@ -4,8 +4,14 @@ import ing.store_management.exception.CartException;
 import ing.store_management.exception.ProductException;
 import ing.store_management.exception.UserException;
 import ing.store_management.model.dto.CartItemDto;
-import ing.store_management.model.entity.*;
-import ing.store_management.repository.*;
+import ing.store_management.model.entity.Cart;
+import ing.store_management.model.entity.CartItem;
+import ing.store_management.model.entity.Product;
+import ing.store_management.model.entity.User;
+import ing.store_management.repository.CartItemRepository;
+import ing.store_management.repository.CartRepository;
+import ing.store_management.repository.ProductRepository;
+import ing.store_management.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -98,14 +104,15 @@ public class CartService {
         Cart cart = cartRepository.findByUser(user);
         if (cart == null) {
             throw new CartException("Cart not found");
-        }        Set<CartItem> cartItems = cart.getItems();
+        }
+        Set<CartItem> cartItems = cart.getItems();
         List<CartItemDto> cartItemDtos = new ArrayList<>();
 
         cartItems.forEach(cartItem ->
                 cartItemDtos.add(CartItemDto.builder()
-                                .productName(cartItem.getProduct().getName())
-                                .productPrice(cartItem.getProduct().getPrice())
-                                .quantity(cartItem.getQuantity())
+                        .productName(cartItem.getProduct().getName())
+                        .productPrice(cartItem.getProduct().getPrice())
+                        .quantity(cartItem.getQuantity())
                         .build()));
 
         return cartItemDtos;
