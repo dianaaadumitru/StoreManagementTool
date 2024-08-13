@@ -110,4 +110,8 @@ public class CartService {
 
         return cartItemDtos;
     }
+
+    public Cart getCartById(Long id) {
+        return cartRepository.findById(id).orElseThrow(() -> new CartException("Cart does not exist"));
+    }
 }
