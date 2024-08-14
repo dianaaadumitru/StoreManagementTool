@@ -39,7 +39,6 @@ public class OrderService {
                 .build();
         order = orderRepository.save(order);
 
-        // Create order items from cart items
         for (CartItem cartItem : cart.getItems()) {
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
